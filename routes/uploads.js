@@ -8,7 +8,7 @@ const Domain = mongoose.model('Domain');
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, path.join(__dirname, '..', 'uploads'));
+        cb(null, path.join(__dirname, '..', 'public'));
     },
     filename: function (req, file, cb) {
         cb(null, Date.now() + file.originalname)
@@ -19,7 +19,7 @@ const upload = multer({ storage: storage });
 
 router.post('/', upload.single('file'), function (req, res) {
     let body = req.body;
-    // console.log(req.file);
+    console.log(req.file);
     console.log(body);
     Domain
         .findOne({
@@ -27,7 +27,7 @@ router.post('/', upload.single('file'), function (req, res) {
         })
         .exec()
         .then((data)=>{
-            console.log(data);
+            console.log(body);
             let topic = data.topics.id(body.topicId);
             console.log(topic);
             topic.posts.push({
